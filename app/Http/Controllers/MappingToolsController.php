@@ -13,7 +13,7 @@ class MappingToolsController extends Controller
       $searchBan = $request->input('searchBan');
       $searchMotor = $request->input('searchMotor');
 
-      $bans = Masterban::join('mapping_generators as mg', 'masterban.idBan', '=', 'mg.idBan')
+      $bans = Masterban::join('mappingban as mg', 'masterban.idBan', '=', 'mg.idBan')
           ->join('mastermotor as m', 'mg.idMotor', '=', 'm.idMotor')
           ->when($searchBan, function ($query, $searchBan) {
               $query->where('m.namaMotor', 'like', '%' . $searchBan . '%')
@@ -23,7 +23,7 @@ class MappingToolsController extends Controller
           ->paginate(10)
           ->appends(['searchBan' => $searchBan]);
 
-      $motors = Mastermotor::join('mapping_generators as mg', 'mastermotor.idMotor', '=', 'mg.idMotor')
+      $motors = Mastermotor::join('mappingban as mg', 'mastermotor.idMotor', '=', 'mg.idMotor')
           ->join('masterban as b', 'mg.idBan', '=', 'b.idBan')
           ->when($searchMotor, function ($query, $searchMotor) {
               $query->where('b.namaBanSistem', 'like', '%' . $searchMotor . '%')

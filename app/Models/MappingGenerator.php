@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MappingGenerator extends Model
 {
-    protected $table = 'mapping_generators';
-    protected $fillable = ['idBan', 'idMotor'];
+    protected $table = 'mappingban';
+    public $timestamps = false;
+    protected $fillable = ['idBan', 'idMotor', 'posisiBan'];
 
     public function ban()
     {

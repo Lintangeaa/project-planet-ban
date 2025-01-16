@@ -6,6 +6,7 @@ use App\Models\MappingGenerator;
 use App\Models\Masterban;
 use App\Models\Mastermotor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MappingGeneratorController extends Controller
 {
@@ -20,7 +21,7 @@ class MappingGeneratorController extends Controller
                   ->orWhere('namaBanUmum', 'like', '%' . $searchBan . '%')
                   ->orWhere('ukuranBan', 'like', '%' . $searchBan . '%');
         })->paginate(5, ['*'], 'ban_page');
-    
+
         // Query untuk Motor dengan pencarian dan pagination
         $motors = Mastermotor::when($searchMotor, function ($query, $searchMotor) {
             $query->where('namaMotor', 'like', '%' . $searchMotor . '%')
@@ -30,15 +31,17 @@ class MappingGeneratorController extends Controller
         return view('pages.mapping-generator.index', compact('motors', 'bans', 'searchBan', 'searchMotor'));
     }  
     
+
     public function store(Request $request)
     {
         $input = $request->validate([
             'idBan' => 'required',
             'idMotor' => 'required',
+            'posisiBan' => 'required|in:Depan,Belakang',
         ]);
 
         MappingGenerator::create($input);
-    
+
         return redirect()->route('mapping-generator.index');
     }
 }

@@ -332,6 +332,14 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="posisi_ban">Posisi Ban</label>
+                                <select name="posisiBan" class="form-control" id="ban_id" required>
+                                    <option value="Depan">Depan</option>
+                                    <option value="Belakang">Belakang</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
