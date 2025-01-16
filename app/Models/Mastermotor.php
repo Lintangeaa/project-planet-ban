@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Mastermotor extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'idMotor';
     protected $table = 'mastermotor';
     public $timestamps = false;
 
@@ -17,4 +18,9 @@ class Mastermotor extends Model
         'banDepan',
         'banBelakang'
     ];
+
+    public function mappingGenerators()
+    {
+        return $this->hasMany(MappingGenerator::class, 'idMotor');
+    }
 }

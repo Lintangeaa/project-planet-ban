@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MappingGenerator;
 use App\Models\Masterban;
 use App\Models\Mastermotor;
 use Illuminate\Http\Request;
@@ -27,5 +28,17 @@ class MappingGeneratorController extends Controller
         })->paginate(5, ['*'], 'motor_page');
     
         return view('pages.mapping-generator.index', compact('motors', 'bans', 'searchBan', 'searchMotor'));
-    }    
+    }  
+    
+    public function store(Request $request)
+    {
+        $input = $request->validate([
+            'idBan' => 'required',
+            'idMotor' => 'required',
+        ]);
+
+        MappingGenerator::create($input);
+    
+        return redirect()->route('mapping-generator.index');
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\MappingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MappingGeneratorController;
+use App\Http\Controllers\MappingToolsController;
 use App\Http\Controllers\Masterbancontroller;
 use App\Http\Controllers\Masterfisikcontroller;
 use App\Http\Controllers\Mastermotorcontroller;
@@ -11,17 +12,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/form', function () {
     return view('pages.form');
 });
-
-
-Route::get('/mappingtools', 'App\Http\Controllers\Mastermotorcontroller@index');
-Route::get('/mappingtools', 'App\Http\Controllers\Masterbancontroller@index');
-
-Route::get('/stockvirtual', [Mastervirtualcontroller::class, 'index'])->name('stockvirtual.index');
-Route::get('/stockvirtual/create', [Mastervirtualcontroller::class, 'create'])->name('stockvirtual.create');
-Route::post('/stockvirtual/store', [Mastervirtualcontroller::class, 'store'])->name('stockvirtual.store');
-
-Route::get('/mappingtools/search', 'App\Http\Controllers\Mastermotorcontroller@search');
-Route::get('/mappingtools/search', 'App\Http\Controllers\Masterbancontroller@search');
 
 Route::get('/fisik/create', 'App\Http\Controllers\Masterfisikcontroller@create');
 
@@ -33,7 +23,21 @@ Route::post('insert-data', 'App\Http\Controllers\Masterfisikcontroller@store');
 Route::get('insert-data', 'App\Http\Controllers\Masterbancontroller@index');
 
 
-Route::get('/mapping-generator', [MappingGeneratorController::class, 'index'])->name('mapping-generator.index');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/mapping-tools', [MappingToolsController::class, 'index'])->name('mapping-tools.index');
+
+Route::prefix('/stockvirtual')->name('stockvirtual.')->group(function() {
+    Route::get('', [Mastervirtualcontroller::class, 'index'])->name('index');
+    Route::get('/create', [Mastervirtualcontroller::class, 'create'])->name('create');
+    Route::post('/store', [Mastervirtualcontroller::class, 'store'])->name('store');
+});
+
+Route::prefix('/mapping-generator')->name('mapping-generator.')->group(function() {
+    Route::get('', [MappingGeneratorController::class, 'index'])->name('index');
+    Route::post('', [MappingGeneratorController::class, 'store'])->name('store');
+});
 
 Route::post('/ban', [Masterbancontroller::class, 'store'])->name('bans.store');
 Route::post('/ban-delete/{id}', [Masterbancontroller::class, 'destroy'])->name('bans.destroy');

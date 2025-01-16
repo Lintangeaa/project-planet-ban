@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Masterban extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'idBan';
     protected $table = 'masterban';
     public $timestamps = false;
 
@@ -18,4 +19,10 @@ class Masterban extends Model
         'ringBan',
         'urlBan'
     ];
+
+    public function mappingGenerators()
+    {
+        return $this->hasMany(MappingGenerator::class, 'idBan');
+    }
+
 }

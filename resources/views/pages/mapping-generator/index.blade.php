@@ -3,12 +3,12 @@
 @section('header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Mapping Tools</h1>
+            <h1>Mapping Generator</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Mapping Tools</li>
+                <li class="breadcrumb-item active">Mapping Generator</li>
             </ol>
         </div>
     </div>
@@ -16,7 +16,11 @@
 
 @section('content')
     <div class="container">
-        <!-- Tabel Ban -->
+        <!-- Tombol Generate Mapping -->
+        <button class="mt-2 mb-2 btn btn-primary btn-sm" data-toggle="modal" data-target="#generateMappingModal">
+            Generate Mapping
+        </button>
+
         <div class="row mb-4">
             <div class="col-md-12">
                 <div class="card">
@@ -235,6 +239,15 @@
                                 <label for="namaBanSistem">Nama Ban Sistem</label>
                                 <input type="text" name="namaBanSistem" class="form-control" id="namaBanSistem"
                                     placeholder="Masukkan nama ban" required>
+                                <label class="mt-2" for="namaBanUmum">Nama Ban Umum</label>
+                                <input type="text" name="namaBanUmum" class="form-control" id="namaBanUmum"
+                                    placeholder="Masukkan nama umum" required>
+                                <label class="mt-2" for="ukuranBan">Ukuran Ban</label>
+                                <input type="text" name="ukuranBan" class="form-control" id="ukuranBan"
+                                    placeholder="Masukkan ukuran ban" required>
+                                <label class="mt-2" for="ringBan">Ring Ban</label>
+                                <input type="text" name="ringBan" class="form-control" id="ringBan"
+                                    placeholder="Masukkan ring ban" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -264,11 +277,65 @@
                                 <label for="namaMotor">Nama Motor</label>
                                 <input type="text" name="namaMotor" class="form-control" id="namaMotor"
                                     placeholder="Masukkan nama motor" required>
+                                <label class="mt-2" for="ringMotorStd">Ring Motor</label>
+                                <input type="number" name="ringMotorStd" class="form-control" id="ringMotorStd"
+                                    placeholder="Masukkan ring motor" required>
+                                <label class="mt-2" for="banDepan">Ban Depan</label>
+                                <input type="text" name="banDepan" class="form-control" id="banDepan"
+                                    placeholder="Masukkan ban depan" required>
+                                <label class="mt-2" for="banBelakang">Ban Belakang</label>
+                                <input type="text" name="banBelakang" class="form-control" id="banBelakang"
+                                    placeholder="Masukkan ban belakang" required>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Generate Mapping -->
+        <div class="modal fade" id="generateMappingModal" tabindex="-1" role="dialog"
+            aria-labelledby="generateMappingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="generateMappingModalLabel">Generate Mapping Motor dan Ban</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('mapping-generator.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <!-- Pilih Motor -->
+                            <div class="form-group">
+                                <label for="motor_id">Pilih Motor</label>
+                                <select name="idMotor" class="form-control" id="motor_id" required>
+                                    <option value="">Pilih Motor</option>
+                                    @foreach ($motors as $motor)
+                                        <option value="{{ $motor->idMotor }}">{{ $motor->namaMotor }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Pilih Ban -->
+                            <div class="form-group">
+                                <label for="ban_id">Pilih Ban</label>
+                                <select name="idBan" class="form-control" id="ban_id" required>
+                                    <option value="">Pilih Ban</option>
+                                    @foreach ($bans as $ban)
+                                        <option value="{{ $ban->idBan }}">{{ $ban->namaBanSistem }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
